@@ -1,0 +1,20 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
+<html>
+<head>
+	<title>common code list</title>
+</head>
+<body>
+<h1>
+	list  
+	
+</h1>
+
+<div>
+	<c:forEach var="item" items="${list }">
+		${item.grp_id } / ${item.grp_nm } / ${item.cd_id } / ${item.cd_nm } <br/>
+	</c:forEach>
+</div>
+
+</body>
+</html>

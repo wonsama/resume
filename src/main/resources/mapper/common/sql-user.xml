@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	제목 : 사용자 관련 SQLMAP
+	생성 : 2015.07.06
+	
+	PREFIX
+		조회 : select => selectUserList
+		삭제 : delete => deleteUserOne
+		등록 : insert => insertUserOne
+		변경 : update => updateUserList
+	
+	SUBFIX
+		단건 : one  => selectUserOne
+		다건 : list => selectUserList	
+ -->
+<mapper namespace="kr.co.jwsnt.works.common.user">
+
+	<!-- 
+		기능 :
+			사용자 목록을 조회한다
+		파라미터 :
+			N/A
+		최초 등록일 :
+			2015.07.06			
+	 -->
+    <select id="selectList"  resultType="kr.co.jwsnt.works.common.vo.JwUserVo" parameterType="kr.co.jwsnt.works.common.vo.JwUserVo">
+    	select
+			idx, nm, tel, rnk, carr, lang, cont, sche, ref, lnk
+		from
+			pw_resume
+		where 1=1
+			<if test="nm != null and nm != '' ">
+				and nm like '%${nm}%'
+			</if>
+			<if test="rnk != null and rnk != '' ">
+				and rnk = #{rnk}
+			</if>
+			<if test="lang != null and lang != '' ">
+				and lang like '%${lang}%'
+			</if>
+			<if test="ref != null and ref != '' ">
+				and ref like '%${ref}%'
+			</if>
+		
+		order by
+			nm
+    </select>
+</mapper>        

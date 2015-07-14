@@ -1,0 +1,58 @@
+<%@page import="kr.co.jwsnt.works.common.vo.JwCodeVo"%>
+<%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
+<html ng-app="listDemo2">
+
+<head>
+
+    <!-- Angular Material CSS now available via Google CDN; version 0.10 used here -->
+    <link rel="stylesheet" href="/resources/angular-material/angular-material.min.css">
+	<style type="text/css">
+	.listdemoListControls md-divider {
+	  margin-top: 10px;
+	  margin-bottom: 10px; 
+  	}
+	</style>
+	
+  </head>
+  <body>
+  
+
+	
+	<md-list ng-controller="ListCtrl">
+		<md-subheader class="md-no-sticky">Single Action Checkboxes</md-subheader>
+		<md-list-item ng-repeat="topping in toppings">
+			<md-checkbox  ng-model="topping.wanted"></md-checkbox>
+			<p class="md-secondary"> {{ topping.name }} </p>
+		</md-list-item>
+	</md-list>
+	
+    <!-- Angular Material Dependencies -->
+    <script src="/resources/angular/angular.min.js"></script>
+    <script src="/resources/angular-animate/angular-animate.min.js"></script>
+    <script src="/resources/angular-aria/angular-aria.min.js"></script>
+
+    <!-- Angular Material Javascript now available via Google CDN; version 0.10 used here -->
+    <script src="/resources/angular-material/angular-material.min.js"></script>
+    
+    <script type="text/javascript">
+    var app = angular.module('listDemo2', ['ngMaterial']);
+    app.controller('ListCtrl', function($scope, $mdDialog) {
+    	
+    	  $scope.toppings = [
+            
+            <%
+            	List<JwCodeVo> list = (List<JwCodeVo>) request.getAttribute("list");
+    			for(JwCodeVo item : list){
+    				String line = String.format("{name : '%s', wanted: false}, ", item.getGrp_nm() + " : " + item.getCd_nm() );
+                	out.println(line);
+    			}
+            %>
+          ];
+    });
+    </script>
+    
+  </body>
+  
+</html>

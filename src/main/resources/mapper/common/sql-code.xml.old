@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	제목 : 코드관련 SQLMAP
+	생성 : 2015.06.24
+	화면 : MSQM62010
+	
+	PREFIX
+		조회 : select => selectUserList
+		삭제 : delete => deleteUserOne
+		등록 : insert => insertUserOne
+		변경 : update => updateUserList
+	
+	SUBFIX
+		단건 : one  => selectUserOne
+		다건 : list => selectUserList	
+ -->
+<mapper namespace="kr.co.jwsnt.works.common.code">
+
+	<!-- 
+		기능 :
+			등록할 때 필요한 인덱스 정보를 가져온다
+		파라미터 :
+			N/A
+		최초 등록일 :
+			2015.07.01
+	 -->
+	<select id="selectInsertIdx" parameterType="kr.co.jwsnt.works.common.vo.JwCodeVo" resultType="int">
+		select IFNULL(count(*),0)+1 from insa_cd where grp_id = #{grp_id}
+	</select>
+
+	<!-- 
+		기능 :
+			공통 코드 정보를 등록한다
+			- 코드 값 및 정렬 순서는 자동으로 생성한다
+		파라미터 :
+			N/A
+		최초 등록일 :
+			2015.07.01
+	 -->
+	<insert id="insertCd" parameterType="kr.co.jwsnt.works.common.vo.JwCodeVo">
+		insert into insa_cd 
+			(grp_id, cd_id, cd_nm, cd_ord, use_yn) 
+		values(
+			#{grp_id}
+			, #{cd_id} 
+			, #{cd_nm} 
+			, #{cd_ord} 
+			, 'Y' 
+		)
+	</insert>
+	
+	<!-- 
+		기능 :
+			선택한 코드를 삭제한다
+		파라미터 :
+			N/A
+		최초 등록일 :
+			2015.07.01
+	 -->
+	<delete id="deleteCd" parameterType="kr.co.jwsnt.works.common.vo.JwCodeVo">
+		delete from 
+			insa_cd
+		where
+			cd_id = #{cd_id}
+	</delete>
+
+	<!-- 
+		기능 :
+			공통 코드 목록을 조회한다
+		파라미터 :
+			N/A
+		최초 등록일 :
+			2015.07.01		
+	 -->
+	<select id="selectGrpList"  resultType="kr.co.jwsnt.works.common.vo.JwCodeVo" parameterType="kr.co.jwsnt.works.common.vo.JwCodeVo">
+		select grp_id, grp_nm from insa_cd_grp where use_yn = 'Y'
+		<if test="grp_id != null and grp_id != '' ">
+			and grp_id = #{grp_id}
+		</if>
+		order by grp_id
+	</select>
+
+	<!-- 
+		기능 :
+			코드 목록을 조회한다
+		파라미터 :
+			N/A
+		최초 등록일 :
+			2015.06.24			
+	 -->
+    <select id="selectList"  resultType="kr.co.jwsnt.works.common.vo.JwCodeVo" parameterType="kr.co.jwsnt.works.common.vo.JwCodeVo">
+    	select 
+			g.grp_id, g.grp_nm, c.cd_id, c.cd_nm
+		from
+			insa_cd_grp g, insa_cd c
+		where 1=1
+			and g.grp_id = c.grp_id
+			and g.use_yn = 'Y'
+			and c.use_yn = 'Y'
+			<if test="grp_id != null and grp_id != '' ">
+				and g.grp_id = #{grp_id}
+			</if>
+			<if test="cd_nm != null and cd_nm != '' ">
+				and c.cd_nm like concat('%',#{cd_nm}, '%')
+			</if>
+		
+		order by
+			g.grp_id, c.cd_ord
+    </select>
+</mapper>        

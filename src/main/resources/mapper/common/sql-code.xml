@@ -47,7 +47,16 @@
 			2015.07.14
 	 -->
 	<select id="selectInsertIdx" parameterType="kr.co.jwsnt.works.common.vo.JwCodeVo" resultType="int">
-		select IFNULL(count(*),0)+1 from insa_cd where grp_id = #{grp_id}
+		<!-- select IFNULL(count(*),0)+1 from insa_cd where grp_id = #{grp_id} -->
+		
+		select max(a)
+		from
+		(
+			select IFNULL(count(*),0)+1 as a from insa_cd where grp_id = #{grp_id}
+			union 
+			select cast(substring(max(cd_id),5) as unsigned)+1 as a from insa_cd where grp_id = #{grp_id}
+		) t;
+		
 	</select>
 
 	<!-- 

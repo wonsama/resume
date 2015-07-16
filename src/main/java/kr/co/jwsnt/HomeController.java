@@ -23,7 +23,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home2(Locale locale, Model model) {
-		return new ModelAndView("redirect:/common/code/list");
+		return new ModelAndView("redirect:/resources/sample/angular-code-001.html");
 	}
 	/**
 	 * Simply selects the home view to render by returning its name.

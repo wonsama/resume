@@ -127,6 +127,33 @@ app.controller('MainCtrl', function($scope, $http, i18nService, $mdToast, $anima
     };
 
     /*
+     * 변경 : 공통코드
+     */
+    $scope.update = function(ev) {
+    	alert("update");
+    	$mdDialog.show({
+            controller: updateController,
+            templateUrl: 'angular-code-002.tmpl.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+        });
+    };
+    
+    /**
+     * 컨트롤러 : insert - 코드 등록 Dialog
+     */
+    function updateController($scope, $mdDialog) {
+    	alert("update close");
+    	/**
+         * 버튼 : 닫기 또는 취소 
+         */
+        $scope.close = function() {
+            $mdDialog.cancel();
+        };
+    };
+    
+    
+    /*
      * 등록 : 공통코드 
      */
     $scope.insert = function(ev) {

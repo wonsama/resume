@@ -22,9 +22,11 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home2(Locale locale, Model model) {
-		return new ModelAndView("redirect:/resources/sample/angular-code-001.html");
+	public String home2(Locale locale, Model model) {
+//		return new ModelAndView("redirect:/resources/sample/angular-code-001.html");
+		return "home";
 	}
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */

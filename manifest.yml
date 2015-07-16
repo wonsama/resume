@@ -1,0 +1,9 @@
+---
+applications:
+- name: resume-w
+  memory: 512M
+  host: resume-w
+  domain: eu-gb.bluemix.net
+  services:
+  - mysql
+  - mqlight
